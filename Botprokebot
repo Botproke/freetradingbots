@@ -1,0 +1,57 @@
+# Pseudocode for Deriv Binary Bot or Custom Trading Bot
+# Trading Logic: Trade if the last digit is above 5, no trade if it is 5 or below.
+
+# Define variables
+trade_amount = 1  # amount to trade per position (adjust as needed)
+max_loss = 5  # max amount you're willing to lose
+current_loss = 0  # track losses
+trade_count = 0  # count trades to avoid overtrading
+
+def last_digit(price):
+    # Extract the last digit of the price
+    last_digit = int(str(price)[-1])
+    return last_digit
+
+def should_trade(last_digit):
+    # Decision rule: Trade if the last digit is greater than 5
+    return last_digit > 5
+
+def place_trade():
+    # Simulate placing a trade (will depend on API or trading platform)
+    # For example, buy or sell on Deriv depending on last digit condition
+    print("Placing trade with amount:", trade_amount)
+
+def check_loss():
+    # Check if current loss exceeds max loss
+    global current_loss
+    if current_loss >= max_loss:
+        print("Max loss reached. Stopping trading.")
+        return True
+    return False
+
+def trading_session():
+    global current_loss
+    global trade_count
+    # Example: Get the latest market price (replace with API or data call)
+    market_price = get_market_price()
+
+    # Get last digit of market price
+    last_digit = last_digit(market_price)
+    print(f"Last digit of price: {last_digit}")
+
+    # Only place a trade if the last digit is over 5
+    if should_trade(last_digit):
+        print(f"Conditions met: Trading with {trade_amount}")
+        place_trade()
+        trade_count += 1
+    else:
+        print("Last digit is not over 5, no trade placed.")
+
+    # Update loss and check if we need to stop
+    if check_loss():
+        print("Ending trading session.")
+        return
+    
+    # Simulate trading results and update loss (you will need to track actual profit/loss)
+    # This can be connected to real-time profit/loss data from Deriv
+    # current_loss += calculate_loss_or_profit()  # Calculate based on actual result
